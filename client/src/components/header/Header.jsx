@@ -6,7 +6,7 @@ export default function Header() {
             {/*wrap*/}
             <div className="wrap clearfix">
                 <Link to="/" title="SocialChef" className="logo">
-                    <img src="images/ico/logo.png" alt="SocialChef logo" />
+                    <img src="/images/ico/logo.png" alt="SocialChef logo" />
                 </Link>
                 <nav className="main-nav" role="navigation" id="menu">
                     <ul>
