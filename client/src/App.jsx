@@ -5,6 +5,7 @@ import Header from "./components/header/Header";
 import Home from "./components/home/Home";
 import RecipeList from "./components/recipe-list/RecipeList";
 import RecipeSubmit from "./components/recipe-submit/RecipeSubmit";
+import Login from "./components/login/Login";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
                 <Route path="/" element={< Home />} />
                 <Route path="/recipes" element={<RecipeList />} />
                 <Route path="/recipes/submit" element={<RecipeSubmit />} />
+                <Route path="/login" element={<Login />} />
             </Routes>
             
             <Footer />
