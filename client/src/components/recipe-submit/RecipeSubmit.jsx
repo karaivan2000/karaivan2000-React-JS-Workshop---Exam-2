@@ -1,4 +1,12 @@
 export default function RecipeSubmit() {
+    const submitRecipeSubmitHandler = (e) => {
+        e.preventDefault();
+
+        const recipeData = Object.fromEntries(new FormData(e.currentTarget));
+        console.log(recipeData);
+        
+    };
+
     return (
         <div className="wrap clearfix">
             {/*breadcrumbs*/}
@@ -16,7 +24,7 @@ export default function RecipeSubmit() {
                     {/*content*/}
                     <section className="content full-width">
                         <div className="submit_recipe container">
-                            <form>
+                            <form onSubmit={submitRecipeSubmitHandler}>
                                 <section>
                                     <div className="f-row">
                                         <div className="full">
