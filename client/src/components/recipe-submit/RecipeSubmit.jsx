@@ -1,10 +1,22 @@
+import { useNavigate } from "react-router-dom";
+
+import * as recipeService from "../../services/recipeService";
+
 export default function RecipeSubmit() {
-    const submitRecipeSubmitHandler = (e) => {
+    const navigate = useNavigate();
+
+    const submitRecipeSubmitHandler = async (e) => {
         e.preventDefault();
 
         const recipeData = Object.fromEntries(new FormData(e.currentTarget));
-        console.log(recipeData);
         
+        try {
+            await recipeService.create(recipeData);
+
+            navigate(`/recipes`);
+        } catch (err) {
+            console.log(err);          
+        }
     };
 
     return (
