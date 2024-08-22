@@ -8,6 +8,12 @@ export const getAll = async () => {
     return Object.values(result); 
 };
 
+export const getOne = async (recipeId) => {
+    const result = await request.get(`${baseUrl}/${recipeId}`);
+
+    return result;
+};
+
 export const create = async (recipeData) => {
     const result = await request.post(baseUrl, recipeData);
 

@@ -10,7 +10,7 @@ export default function RecipeListItem({
             <figure>
                 <img src={imageUrl} />
                 <figcaption>
-                    <Link to="recipe.html">
+                    <Link to={`/recipes/${_id}`}>
                         <i className="icon icon-themeenergy_eye2"></i>
                         <span>View recipe</span>
                     </Link>

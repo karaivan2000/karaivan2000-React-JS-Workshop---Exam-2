@@ -7,6 +7,7 @@ import RecipeList from "./components/recipe-list/RecipeList";
 import RecipeSubmit from "./components/recipe-submit/RecipeSubmit";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
+import RecipeDetails from "./components/recipe-details/RecipeDetails";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/recipes/submit" element={<RecipeSubmit />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/recipes/:recipeId" element={<RecipeDetails />} />
             </Routes>
 
             <Footer />
