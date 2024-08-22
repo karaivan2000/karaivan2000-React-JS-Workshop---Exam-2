@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import * as recipeService from "../../services/recipeService";
+import * as commentService from "../../services/commentService";
 
 export default function RecipeDetails() {
     const [recipe, setRecipe] = useState({});
@@ -11,6 +12,21 @@ export default function RecipeDetails() {
         recipeService.getOne(recipeId)
             .then(setRecipe)
     }, [recipeId]);
+
+    const addCommentHandler = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        const newComment = await commentService.create(
+            recipeId,
+            formData.get(`username`),
+            formData.get(`comment`),
+        );
+
+        console.log(newComment);
+        
+    };
 
     return (
         <section className="content three-fourth">
@@ -78,7 +94,7 @@ export default function RecipeDetails() {
                         <div className="comment-box">
                             <div className="comment-text">
                                 <p>
-                                    Email: Van2000@abv.bg
+                                    Email: The Best!
                                 </p>
                             </div>
                         </div>
@@ -95,9 +111,11 @@ export default function RecipeDetails() {
                     <div className="comment-respond" id="respond">
                         <h2>Leave a reply</h2>
                         <div className="container">
-                            <form>
+                            <form onSubmit={addCommentHandler}>
 
                                 <div className="f-row">
+                                <input type="text" name="username" placeholder="username..."/>
+
                                     <textarea
                                         name="comment"
                                         placeholder="Comment here...."
