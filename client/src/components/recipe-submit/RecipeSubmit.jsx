@@ -11,8 +11,9 @@ export default function RecipeSubmit() {
         const recipeData = Object.fromEntries(new FormData(e.currentTarget));
         
         try {
-            await recipeService.create(recipeData);
-
+            const result =  await recipeService.create(recipeData);
+            console.log(result);
+            
             navigate(`/recipes`);
         } catch (err) {
             console.log(err);          
