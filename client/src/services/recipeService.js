@@ -1,7 +1,16 @@
-const baseUrl = `http://localhost:3030/jsonstore`;
+import { request } from "../lib/request";
+
+const baseUrl = `http://localhost:3030/jsonstore/recipes`;
+
+export const getAll = async () => {
+    const result = await request(`GET`, baseUrl);
+
+    return Object.values(result);
+    
+};
 
 export const create = async (recipeData) => {
-    const response = await fetch(`${baseUrl}/recipes`, {
+    const response = await fetch(baseUrl, {
         method: `POST`,
         headers: {
             "Content-Type": "application/json"
@@ -13,3 +22,4 @@ export const create = async (recipeData) => {
 
     return result;
 };
+

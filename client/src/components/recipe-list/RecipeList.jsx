@@ -1,4 +1,17 @@
+import { useEffect, useState } from "react";
+
+import * as recipeService from "../../services/recipeService";
+
 export default function RecipeList() {
+    const [recipe, setRecipes] = useState([]);
+
+    useEffect(() => {
+        recipeService.getAll()
+            .then(result => setRecipes(result));
+    }, []);
+
+    console.log(recipe);
+    
     return (
         <div className="wrap clearfix">
 
@@ -13,7 +26,7 @@ export default function RecipeList() {
                             <figure>
                                 <img src="/images/img.jpg" alt="" />
                                 <figcaption>
-                                    <a href="recipe.html"><i class="icon icon-themeenergy_eye2"></i>
+                                    <a href="recipe.html"><i className="icon icon-themeenergy_eye2"></i>
                                         <span>View recipe</span></a>
                                 </figcaption>
                             </figure>

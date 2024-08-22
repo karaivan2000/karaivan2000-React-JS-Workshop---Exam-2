@@ -3,7 +3,7 @@ export default function LatestRecipes() {
         <figure>
             <img src="/images/img.jpg" alt="" />
             <figcaption>
-                <a href="recipe.html"><i class="icon icon-themeenergy_eye2"></i> 
+                <a href="recipe.html"><i className="icon icon-themeenergy_eye2"></i> 
                 <span>View recipe</span></a>
             </figcaption>
         </figure>
