@@ -12,8 +12,12 @@ export const create = async (recipeId, username, text) => {
     return newComment;
 };
 
-export const getAll = async () => {
-    const result = await request.get(baseUrl);
+export const getAll = async (recipeId) => {
+    const query = new URLSearchParams({
+        where: `recipeId="${recipeId}"`,
+    });
+
+    const result = await request.get(`${baseUrl}?${query.toString()}`);
 
     return Object.values(result);
 };
