@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
 
+import useForm from "../../hooks/useForm";
+
 export default function Login() {
+    const { values, onChange, onSubmit } = useForm({
+        email: ``,
+        password: ``,
+    });
     return(
         <section className="content center full-width">
-        <form id="login">
+        <form id="login" onSubmit={onSubmit}>
             <div className="modal container">
                 <h1>Login</h1>
 
@@ -13,6 +19,8 @@ export default function Login() {
                         type="text"
                         id="email"
                         name="email"
+                        onChange={onChange}
+                        value={values.email}
                         placeholder="Van2000@abv.bg"
                     />
                 </div>
@@ -22,6 +30,8 @@ export default function Login() {
                         type="password"
                         id="password"
                         name="password"
+                        onChange={onChange}
+                        value={values.password}
                         placeholder="Your password" />
                 </div>
                 <div className="f-row bwrap">
