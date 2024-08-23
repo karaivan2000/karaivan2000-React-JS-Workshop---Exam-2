@@ -6,11 +6,15 @@ import * as commentService from "../../services/commentService";
 
 export default function RecipeDetails() {
     const [recipe, setRecipe] = useState({});
-    const {recipeId} = useParams();
-    
+    const [comments, setComments] = useState([]);
+    const { recipeId } = useParams();
+
     useEffect(() => {
         recipeService.getOne(recipeId)
             .then(setRecipe)
+
+        commentService.getAll(recipeId)
+            .then(setComments);
     }, [recipeId]);
 
     const addCommentHandler = async (e) => {
@@ -24,8 +28,8 @@ export default function RecipeDetails() {
             formData.get(`comment`),
         );
 
-        console.log(newComment);
-        
+        setComments(state => [...state], newComment);
+
     };
 
     return (
@@ -45,7 +49,7 @@ export default function RecipeDetails() {
                                 </strong>
                             </p>{" "}
                             <p>
-                               {recipe.description}
+                                {recipe.description}
                             </p>
                         </div>
                         <h3>Instructions:</h3>
@@ -89,51 +93,55 @@ export default function RecipeDetails() {
                 <h2>Comments:</h2>
                 <ol className="comment-list">
 
-
-                    <li className="comment depth-1">
-                        <div className="comment-box">
-                            <div className="comment-text">
-                                <p>
-                                    Email: The Best!
-                                </p>
+                    {comments.map(({ _id, username, text }) => {
+                        <li key={_id} className="comment depth-1">
+                            <div className="comment-box">
+                                <div className="comment-text">
+                                    <p>
+                                        {username}: {text}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                    <h3 id="no-recipes">No comments yet</h3>
+                        </li>
+                    })}
+
+                    {comments.length === 0 &&(
+                        <h3 id="no-recipes">No comments yet</h3>
+                    )}
 
                 </ol>
             </div>
             {/*//comments*/}
 
-            
-                <>
-                    {/*respond*/}
-                    <div className="comment-respond" id="respond">
-                        <h2>Leave a reply</h2>
-                        <div className="container">
-                            <form onSubmit={addCommentHandler}>
 
-                                <div className="f-row">
-                                <input type="text" name="username" placeholder="username..."/>
+            <>
+                {/*respond*/}
+                <div className="comment-respond" id="respond">
+                    <h2>Leave a reply</h2>
+                    <div className="container">
+                        <form onSubmit={addCommentHandler}>
 
-                                    <textarea
-                                        name="comment"
-                                        placeholder="Comment here...."
-                                        
-                                    ></textarea>
+                            <div className="f-row">
+                                <input type="text" name="username" placeholder="username..." />
+
+                                <textarea
+                                    name="comment"
+                                    placeholder="Comment here...."
+
+                                ></textarea>
+                            </div>
+                            <div className="f-row">
+                                <div className="third bwrap">
+                                    <input type="submit" value="Add comment" />
                                 </div>
-                                <div className="f-row">
-                                    <div className="third bwrap">
-                                        <input type="submit" value="Add comment" />
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
+                        </form>
 
-                        </div>
                     </div>
-                    {/*//respond*/}
-                </>
-            
+                </div>
+                {/*//respond*/}
+            </>
+
 
         </section>
     );
