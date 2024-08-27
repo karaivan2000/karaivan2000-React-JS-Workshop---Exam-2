@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import * as authService from "./services/authService";
 import AuthContext from "./context/authContext";
@@ -30,17 +30,25 @@ function App() {
         }
         
     };
-    const registerSubmitHandler = async (values) => {
-        console.log(values);
+    const registerSubmitHandler = async ({email, password}) => {
+        try {
+            const result = await authService.register(email, password);
+
+            setAuth(result);
+
+            navigate(`/`);
+        } catch (err) {
+            console.log(err.message);
+        }
         
     }
 
     const values = {
         registerSubmitHandler,
         loginSubmitHandler,
-        username: auth.username,
+        username: auth.username || auth.email,
         email: auth.email,
-        isAuthenticated: !!auth.email,
+        isAuthenticated: !!auth.accessToken,
     }
 
     return (
