@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 
+import * as authService from "./services/authService";
 import AuthContext from "./context/authContext";
 
 import Footer from "./components/footer/Footer";
@@ -14,15 +15,24 @@ import RecipeDetails from "./components/recipe-details/RecipeDetails";
 
 
 function App() {
+    const navigate = useNavigate();
     const [auth, setAuth] = useState({});
 
-    const loginSubmitHandler = (values) => {
-        console.log(values);
-    
+    const loginSubmitHandler = async ({ email, password }) => {
+        try {
+            const result = await authService.login(email, password);
+            
+            setAuth(result);
+
+            navigate(`/`);
+        } catch (err) {
+            console.log(err.message);
+        }
+        
     };
 
     return (
-        <AuthContext.Provider value={loginSubmitHandler}>
+        <AuthContext.Provider value={{loginSubmitHandler}}>
             <Header />
 
             <Routes>
