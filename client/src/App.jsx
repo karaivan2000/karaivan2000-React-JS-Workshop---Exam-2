@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
+
+import AuthContext from "./context/authContext";
 
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
@@ -9,10 +12,17 @@ import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import RecipeDetails from "./components/recipe-details/RecipeDetails";
 
+
 function App() {
+    const [auth, setAuth] = useState({});
+
+    const loginSubmitHandler = (values) => {
+        console.log(values);
+    
+    };
 
     return (
-        <>
+        <AuthContext.Provider value={loginSubmitHandler}>
             <Header />
 
             <Routes>
@@ -25,7 +35,7 @@ function App() {
             </Routes>
 
             <Footer />
-        </>
+        </AuthContext.Provider>
     )
 }
 
