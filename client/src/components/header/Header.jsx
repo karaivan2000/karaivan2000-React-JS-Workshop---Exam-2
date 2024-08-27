@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "../../context/authContext";
 
 export default function Header() {
+    const { isAuthenticated} = useContext(AuthContext);
+
     return (
         <header className="head" role="banner">
             {/*wrap*/}
@@ -16,29 +20,37 @@ export default function Header() {
                             </Link>
                         </li>
 
-                        <li>
-                            <Link to="/recipes/submit" title="Submit a recipe">
-                                <span>Submit a Recipe</span>
-                            </Link>
-                        </li>
+                        {isAuthenticated && (
+                            <>
+                                <li>
+                                    <Link to="/recipes/submit" title="Submit a recipe">
+                                        <span>Submit a Recipe</span>
+                                    </Link>
+                                </li>
 
-                        <li>
-                            <Link to="/logout">
-                                <span>Logout</span>
-                            </Link>
-                        </li>
+                                <li>
+                                    <Link to="/logout">
+                                        <span>Logout</span>
+                                    </Link>
+                                </li>
+                            </>
+                        )}
+                        {!isAuthenticated && (
+                            <>
+                                <li>
+                                    <Link to="/login" title="Login page">
+                                        <span>Login</span>
+                                    </Link>
+                                </li>
 
-                        <li>
-                            <Link to="/login" title="Login page">
-                                <span>Login</span>
-                            </Link>
-                        </li>
+                                <li>
+                                    <Link to="/register" title="Register page">
+                                        <span>Register</span>
+                                    </Link>
+                                </li>
+                            </>
+                        )}
 
-                        <li>
-                            <Link to="/register" title="Register page">
-                                <span>Register</span>
-                            </Link>
-                        </li>
 
                     </ul>
                 </nav>

@@ -4,12 +4,18 @@ import { Link } from "react-router-dom";
 import useForm from "../../hooks/useForm";
 import AuthContext from "../../context/authContext";
 
+const LoginFormKyes = {
+    Email: 'email',
+    Password: 'password',
+};
+
 export default function Login() {
     const {loginSubmitHandler} = useContext(AuthContext);
     const { values, onChange, onSubmit } = useForm(loginSubmitHandler, {
-        email: ``,
-        password: ``,
+        [LoginFormKyes.Email]: '',
+        [LoginFormKyes.Password]: '',
     });
+
     return(
         <section className="content center full-width">
         <form id="login" onSubmit={onSubmit}>

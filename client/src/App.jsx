@@ -21,7 +21,7 @@ function App() {
     const loginSubmitHandler = async ({ email, password }) => {
         try {
             const result = await authService.login(email, password);
-            
+
             setAuth(result);
 
             navigate(`/`);
@@ -30,9 +30,21 @@ function App() {
         }
         
     };
+    const registerSubmitHandler = async (values) => {
+        console.log(values);
+        
+    }
+
+    const values = {
+        registerSubmitHandler,
+        loginSubmitHandler,
+        username: auth.username,
+        email: auth.email,
+        isAuthenticated: !!auth.email,
+    }
 
     return (
-        <AuthContext.Provider value={{loginSubmitHandler}}>
+        <AuthContext.Provider value={values}>
             <Header />
 
             <Routes>
