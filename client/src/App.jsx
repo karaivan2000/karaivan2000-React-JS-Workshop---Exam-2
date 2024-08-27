@@ -12,11 +12,16 @@ import RecipeSubmit from "./components/recipe-submit/RecipeSubmit";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import RecipeDetails from "./components/recipe-details/RecipeDetails";
+import Logout from "./components/logout/Logout";
 
 
 function App() {
     const navigate = useNavigate();
-    const [auth, setAuth] = useState({});
+    const [auth, setAuth] = useState(() => {
+        localStorage.removeItem(`accessToken`);
+
+        return {};
+    });
 
     const loginSubmitHandler = async ({ email, password }) => {
         try {
@@ -24,17 +29,21 @@ function App() {
 
             setAuth(result);
 
+            localStorage.setItem(`accessToken`, result.accessToken);
+
             navigate(`/`);
         } catch (err) {
             console.log(err.message);
         }
         
     };
+
     const registerSubmitHandler = async ({email, password}) => {
         try {
             const result = await authService.register(email, password);
 
             setAuth(result);
+            localStorage.setItem(`accessToken`, result.accessToken);
 
             navigate(`/`);
         } catch (err) {
@@ -42,10 +51,16 @@ function App() {
         }
         
     }
+    
+    const logoutHandler = () => {
+        setAuth({});
+        localStorage.removeItem(`accessToken`);
+    };
 
     const values = {
         registerSubmitHandler,
         loginSubmitHandler,
+        logoutHandler,
         username: auth.username || auth.email,
         email: auth.email,
         isAuthenticated: !!auth.accessToken,
@@ -61,6 +76,7 @@ function App() {
                 <Route path="/recipes/submit" element={<RecipeSubmit />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/logout" element={<Logout />} />
                 <Route path="/recipes/:recipeId" element={<RecipeDetails />} />
             </Routes>
 
