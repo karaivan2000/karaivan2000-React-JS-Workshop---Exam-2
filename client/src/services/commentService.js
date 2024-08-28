@@ -17,7 +17,7 @@ export const getAll = async (recipeId) => {
         where: `recipeId="${recipeId}"`,
     });
 
-    const result = await request.get(`${baseUrl}?${query.toString()}`);
+    const result = await request.get(`${baseUrl}?${query}`);
 
-    return Object.values(result);
+    return result;
 };
