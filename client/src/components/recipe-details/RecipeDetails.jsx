@@ -1,10 +1,12 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import * as recipeService from "../../services/recipeService";
 import * as commentService from "../../services/commentService";
+import AuthContext from "../../context/authContext";
 
 export default function RecipeDetails() {
+    const {email} = useContext(AuthContext);
     const [recipe, setRecipe] = useState({});
     const [comments, setComments] = useState([]);
     const { recipeId } = useParams();
@@ -24,11 +26,10 @@ export default function RecipeDetails() {
 
         const newComment = await commentService.create(
             recipeId,
-            formData.get(`username`),
             formData.get(`comment`),
         );
 
-        setComments(state => [...state], newComment);
+        setComments(state => [...state, { ...newComment, author: { email } }]);
 
     };
 
@@ -93,19 +94,19 @@ export default function RecipeDetails() {
                 <h2>Comments:</h2>
                 <ol className="comment-list">
 
-                    {comments.map(({ _id, username, text }) => {
+                    {comments.map(({ _id, text, owner: { email } }) => {
                         <li key={_id} className="comment depth-1">
                             <div className="comment-box">
                                 <div className="comment-text">
                                     <p>
-                                        {username}: {text}
+                                        {email}: {text}
                                     </p>
                                 </div>
                             </div>
                         </li>
                     })}
 
-                    {comments.length === 0 &&(
+                    {comments.length === 0 && (
                         <h3 id="no-recipes">No comments yet</h3>
                     )}
 
@@ -122,13 +123,8 @@ export default function RecipeDetails() {
                         <form onSubmit={addCommentHandler}>
 
                             <div className="f-row">
-                                <input type="text" name="username" placeholder="username..." />
-
-                                <textarea
-                                    name="comment"
-                                    placeholder="Comment here...."
-
-                                ></textarea>
+                                <input type="text" name="username" placeholder="username"/>
+                                <textarea name="comment" placeholder="Comment here...."></textarea>
                             </div>
                             <div className="f-row">
                                 <div className="third bwrap">
