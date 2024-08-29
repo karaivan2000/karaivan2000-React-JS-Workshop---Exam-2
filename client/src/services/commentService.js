@@ -1,6 +1,6 @@
 import * as request from "../lib/request";
 
-const baseUrl = `http://localhost:3030/jsonstore/comments`;
+const baseUrl = `http://localhost:3030/data/comments`;
 
 export const create = async (recipeId, username, text) => {
     const newComment = await request.post(baseUrl, {
@@ -17,7 +17,7 @@ export const getAll = async (recipeId) => {
         where: `recipeId="${recipeId}"`,
     });
 
-    const result = await request.get(`${baseUrl}?${query.toString}`);
+    const result = await request.get(`${baseUrl}?${query}`);
 
-    return Object.values(result);
+    return result;
 };
