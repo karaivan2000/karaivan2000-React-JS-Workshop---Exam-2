@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
 import * as authService from "./services/authService";
-import AuthContext from "./context/authContext";
+import { AuthProvider } from "./context/authContext";
 
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
@@ -35,10 +35,10 @@ function App() {
         } catch (err) {
             console.log(err.message);
         }
-        
+
     };
 
-    const registerSubmitHandler = async ({email, password}) => {
+    const registerSubmitHandler = async ({ email, password }) => {
         try {
             const result = await authService.register(email, password);
 
@@ -49,9 +49,9 @@ function App() {
         } catch (err) {
             console.log(err.message);
         }
-        
+
     }
-    
+
     const logoutHandler = () => {
         setAuth({});
         localStorage.removeItem(`accessToken`);
@@ -67,7 +67,7 @@ function App() {
     }
 
     return (
-        <AuthContext.Provider value={values}>
+        <AuthProvider value={values}>
             <Header />
 
             <Routes>
@@ -81,7 +81,7 @@ function App() {
             </Routes>
 
             <Footer />
-        </AuthContext.Provider>
+        </AuthProvider>
     )
 }
 
