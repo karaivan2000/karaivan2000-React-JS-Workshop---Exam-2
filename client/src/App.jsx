@@ -1,7 +1,5 @@
-import { useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
-import * as authService from "./services/authService";
 import { AuthProvider } from "./context/authContext";
 
 import Footer from "./components/footer/Footer";
@@ -16,58 +14,9 @@ import Logout from "./components/logout/Logout";
 
 
 function App() {
-    const navigate = useNavigate();
-    const [auth, setAuth] = useState(() => {
-        localStorage.removeItem(`accessToken`);
-
-        return {};
-    });
-
-    const loginSubmitHandler = async ({ email, password }) => {
-        try {
-            const result = await authService.login(email, password);
-
-            setAuth(result);
-
-            localStorage.setItem(`accessToken`, result.accessToken);
-
-            navigate(`/`);
-        } catch (err) {
-            console.log(err.message);
-        }
-
-    };
-
-    const registerSubmitHandler = async ({ email, password }) => {
-        try {
-            const result = await authService.register(email, password);
-
-            setAuth(result);
-            localStorage.setItem(`accessToken`, result.accessToken);
-
-            navigate(`/`);
-        } catch (err) {
-            console.log(err.message);
-        }
-
-    }
-
-    const logoutHandler = () => {
-        setAuth({});
-        localStorage.removeItem(`accessToken`);
-    };
-
-    const values = {
-        registerSubmitHandler,
-        loginSubmitHandler,
-        logoutHandler,
-        username: auth.username || auth.email,
-        email: auth.email,
-        isAuthenticated: !!auth.accessToken,
-    }
 
     return (
-        <AuthProvider value={values}>
+        <AuthProvider>
             <Header />
 
             <Routes>
