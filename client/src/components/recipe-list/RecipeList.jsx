@@ -9,7 +9,10 @@ export default function RecipeList() {
 
     useEffect(() => {
         recipeService.getAll()
-            .then(result => setRecipes(result));
+            .then(result => setRecipes(result))
+            .catch(err => {
+                console.log(err);
+            })
     }, []);
 
     
