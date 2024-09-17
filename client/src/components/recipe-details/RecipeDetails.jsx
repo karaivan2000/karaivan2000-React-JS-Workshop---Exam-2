@@ -1,14 +1,26 @@
 import { useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 
 import * as recipeService from "../../services/recipeService";
 import * as commentService from "../../services/commentService";
 import AuthContext from "../../context/authContext";
 
+const reducer = (state, action) => {
+    switch (action?.type) {
+        case `GET_ALL_COMMENTS`:
+            return [...action.payload];
+        case `ADD_COMMENT`:
+            return [...state, action.payload];
+        default:
+            return state;
+    }
+
+}
+
 export default function RecipeDetails() {
     const { email } = useContext(AuthContext);
     const [recipe, setRecipe] = useState({});
-    const [comments, setComments] = useState([]);
+    const [comments, dispatchComments] = useReducer(reducer, []);
     const { recipeId } = useParams();
 
     useEffect(() => {
@@ -16,7 +28,12 @@ export default function RecipeDetails() {
             .then(setRecipe)
 
         commentService.getAll(recipeId)
-            .then(setComments)
+            .then((result) => {
+                dispatchComments({
+                    type: `GET_ALL_COMMENTS`,
+                    payload: result,
+                })
+            })
     }, [recipeId]);
 
     const addCommentHandler = async (e) => {
@@ -29,8 +46,13 @@ export default function RecipeDetails() {
             formData.get(`comment`),
         );
 
-        setComments(state => [...state, { ...newComment, owner: email }]);
+        newComment.owner = { email };
 
+        //setComments(state => [...state, { ...newComment, owner: email }]);
+        dispatchComments({
+            type: `ADD_COMMENT`,
+            payload: newComment
+        })
     };
 
     return (
